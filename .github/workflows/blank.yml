@@ -1,0 +1,38 @@
+name: GraalVM build
+on: [push, pull_request]
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+      - uses: graalvm/setup-graalvm@v1
+        with:
+          java-version: '17.0.7'
+          distribution: 'graalvm' # See 'Options' for all available distributions
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: show versions
+        run: |
+          echo "GRAALVM_HOME: $GRAALVM_HOME"
+          echo "JAVA_HOME: $JAVA_HOME"
+          java --version
+          native-image --version
+          sudo apt-get install zlib1g-dev
+          gcc -v
+          sudo apt-get install build-essential
+          ldd --version
+
+      - name: maven build and image creation  # https://graalvm.github.io/native-build-tools/latest/maven-plugin.html
+        run: mvn clean package
+      - name: Upload lambda binary
+        uses: actions/upload-artifact@v2
+        with:
+          name: lambda
+          path: target/lambda*
+      - name: create heap dump
+        run: |
+          ./target/lambda -XX:+DumpHeapAndExit
+      - name: Upload heap dump
+        uses: actions/upload-artifact@v2
+        with:
+          name: lambda.hprof
+          path: lambda.hprof
