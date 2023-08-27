@@ -27,9 +27,9 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: lambda
-          path: target/*
+          path: target/product-binary
       - name: Upload lambda zip
         uses: actions/upload-artifact@v2
         with:
-          name: lambda.zip
+          name: function.zip
           path: target/lambda.zip
