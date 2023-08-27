@@ -22,12 +22,17 @@ jobs:
           ldd --version
 
       - name: maven build and image creation  # https://graalvm.github.io/native-build-tools/latest/maven-plugin.html
-        run: mvn clean package
+        run: mvn clean package -P native-image
       - name: Upload lambda binary
         uses: actions/upload-artifact@v2
         with:
           name: lambda
           path: target/lambda*
+      - name: Upload lambda zip
+          uses: actions/upload-artifact@v2
+          with:
+            name: lambda.zip
+            path: src/assembly/lambda.zip
       - name: create heap dump
         run: |
           ./target/lambda -XX:+DumpHeapAndExit
