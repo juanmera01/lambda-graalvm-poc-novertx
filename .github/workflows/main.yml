@@ -26,10 +26,10 @@ jobs:
       - name: Upload lambda binary
         uses: actions/upload-artifact@v2
         with:
-          name: lambda
+          name: product-binary
           path: target/product-binary
       - name: Upload lambda zip
         uses: actions/upload-artifact@v2
         with:
           name: function.zip
-          path: target/lambda.zip
+          path: target/function.zip
