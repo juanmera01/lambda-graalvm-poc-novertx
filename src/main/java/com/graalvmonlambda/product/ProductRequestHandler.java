@@ -14,12 +14,13 @@ import java.util.List;
 
 public class ProductRequestHandler implements RequestHandler<APIGatewayV2HTTPEvent, APIGatewayV2HTTPResponse> {
 
-    final AmazonDynamoDB db = AmazonDynamoDBClientBuilder.standard().build();
-    DynamoDBMapper mapper = new DynamoDBMapper(db);
 
     @Override
     public APIGatewayV2HTTPResponse handleRequest(APIGatewayV2HTTPEvent event, Context context) {
 
+        AmazonDynamoDB db = AmazonDynamoDBClientBuilder.standard().build();
+        DynamoDBMapper mapper = new DynamoDBMapper(db);
+        
         List<Customer> customers;
         customers = mapper.scan(Customer.class, new DynamoDBScanExpression());
 
