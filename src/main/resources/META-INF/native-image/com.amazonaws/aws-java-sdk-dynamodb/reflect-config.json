@@ -60,7 +60,13 @@
     "allDeclaredFields": true,
     "allDeclaredConstructors": true,
     "allDeclaredMethods": true,
-    "allDeclaredClasses": true
+    "allDeclaredClasses": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      }
+    ]
   },
   {
     "name": "com.amazonaws.util.VersionInfoUtils",
