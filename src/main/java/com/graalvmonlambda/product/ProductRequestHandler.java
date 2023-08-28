@@ -1,5 +1,6 @@
 package com.graalvmonlambda.product;
 
+import com.amazonaws.regions.Regions;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
@@ -13,7 +14,7 @@ import java.util.List;
 
 public class ProductRequestHandler implements RequestHandler<APIGatewayV2HTTPEvent, APIGatewayV2HTTPResponse> {
 
-    AmazonDynamoDB db = AmazonDynamoDBClientBuilder.defaultClient();
+    final AmazonDynamoDB db = AmazonDynamoDBClientBuilder.standard().build();
     DynamoDBMapper mapper = new DynamoDBMapper(db);
 
     @Override
