@@ -70,10 +70,16 @@
     "allDeclaredClasses": true
   },
   {
-    "name": "com.amazonaws.internal.config.InternalConfig",
+    "name": "com.amazonaws.internal.config.InternalConfig$Factory",
     "allDeclaredFields": true,
     "allDeclaredConstructors": true,
     "allDeclaredMethods": true,
-    "allDeclaredClasses": true
+    "allDeclaredClasses": true,
+    "methods": [
+      {
+        "name": "<clinit>",
+        "parameterTypes": ["com.amazonaws.internal.config.InternalConfig"]
+      }
+    ]
   }
 ]
