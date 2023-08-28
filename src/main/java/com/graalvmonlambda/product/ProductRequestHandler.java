@@ -15,10 +15,14 @@ public class ProductRequestHandler implements RequestHandler<APIGatewayV2HTTPEve
 
     @Override
     public APIGatewayV2HTTPResponse handleRequest(APIGatewayV2HTTPEvent event, Context context) {
-
-        AmazonDynamoDB db = AmazonDynamoDBClientBuilder.defaultClient();
-        DynamoDBMapper mapper = new DynamoDBMapper(db);
-
+        DynamoDBMapper mapper;
+        try {
+            AmazonDynamoDB db = AmazonDynamoDBClientBuilder.defaultClient();
+            mapper = new DynamoDBMapper(db);
+        }catch(Exception e){
+            e.printStackTrace();
+            throw new RuntimeException("Could not initialize Spring Boot Application", e);
+        }
         List<Customer> customers;
         customers = mapper.scan(Customer.class, new DynamoDBScanExpression());
 
