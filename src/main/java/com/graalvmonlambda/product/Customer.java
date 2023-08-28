@@ -18,6 +18,13 @@ public class Customer {
 
     private String city;
 
+    public Customer() {
+    }
+
+    public Customer(Long id) {
+        this.setId(id);
+    }
+
     public Customer(Long id, String name, String firstname, String email, String street,
                     String city) {
         this.id = id;
