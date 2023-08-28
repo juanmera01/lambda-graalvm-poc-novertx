@@ -77,7 +77,7 @@
     "allDeclaredClasses": true,
     "methods": [
       {
-        "name": "<clinit>",
+        "name": "<init>",
         "parameterTypes": []
       }
     ]
