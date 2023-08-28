@@ -16,7 +16,7 @@ public class ProductRequestHandler implements RequestHandler<APIGatewayV2HTTPEve
     @Override
     public APIGatewayV2HTTPResponse handleRequest(APIGatewayV2HTTPEvent event, Context context) {
 
-        AmazonDynamoDB db = AmazonDynamoDBClientBuilder.standard().build();
+        AmazonDynamoDB db = AmazonDynamoDBClientBuilder.defaultClient();
         DynamoDBMapper mapper = new DynamoDBMapper(db);
 
         List<Customer> customers;
