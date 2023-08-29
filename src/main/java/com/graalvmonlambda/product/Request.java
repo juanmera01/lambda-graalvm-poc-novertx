@@ -7,7 +7,7 @@ public class Request {
 
     private Long id;
 
-    private Item item;
+    private Order order;
 
     public void setHttpMethod(String httpMethod) {
         this.httpMethod = httpMethod;
@@ -17,8 +17,8 @@ public class Request {
         this.id = id;
     }
 
-    public void setCustomer(Item item) {
-        this.item = item;
+    public void setCustomer(Order order) {
+        this.order = order;
     }
 
     public String getHttpMethod() {
@@ -29,7 +29,7 @@ public class Request {
         return id;
     }
 
-    public Item getCustomer() {
-        return item;
+    public Order getCustomer() {
+        return order;
     }
 }

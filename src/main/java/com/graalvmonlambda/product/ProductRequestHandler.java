@@ -15,19 +15,19 @@ import java.util.List;
 
 public class ProductRequestHandler implements RequestHandler<Request, Object> {
 
-    static final TableSchema<Item> itemTableSchema =
-            TableSchema.builder(Item.class)
-                    .newItemSupplier(Item::new)
+    static final TableSchema<Order> orderTableSchema =
+            TableSchema.builder(Order.class)
+                    .newItemSupplier(Order::new)
                     .addAttribute(Long.class, a -> a.name("id")
-                            .getter(Item::getId)
-                            .setter(Item::setId)
+                            .getter(Order::getId)
+                            .setter(Order::setId)
                             .tags(StaticAttributeTags.primaryPartitionKey()))
-                    .addAttribute(String.class, a -> a.name("name")
-                            .getter(Item::getName)
-                            .setter(Item::setName))
-                    .addAttribute(Double.class, a -> a.name("price")
-                            .getter(Item::getPrice)
-                            .setter(Item::setPrice))
+                    .addAttribute(Long.class, a -> a.name("customerId")
+                            .getter(Order::getCustomerId)
+                            .setter(Order::setCustomerId))
+                    .addAttribute(List.class, a -> a.name("orderLine")
+                            .getter(Order::getOrderLine)
+                            .setter(Order::setOrderLine))
                     .build();
 
     @Override
@@ -36,17 +36,17 @@ public class ProductRequestHandler implements RequestHandler<Request, Object> {
         DynamoDbClient dynamodbClient = DynamoDbClient.create();
         final DynamoDbEnhancedClient enhancedClient = DynamoDbEnhancedClient.builder()
                 .dynamoDbClient(dynamodbClient).build();
-        DynamoDbTable<Item> itemTable = enhancedClient.table(
-                "dxcassure-feature-127-java-lambda-research-service-item_table",
-                itemTableSchema
+        DynamoDbTable<Order> orderTable = enhancedClient.table(
+                "dxcassure-feature-127-java-lambda-research-service-order_table",
+                orderTableSchema
         );
 
-        List<Item> items = new ArrayList<>();
-        PageIterable<Item> res = itemTable.scan();
-        for(Page<Item> p : res){
-            items.addAll(p.items());
+        List<Order> orders = new ArrayList<>();
+        PageIterable<Order> res = orderTable.scan();
+        for(Page<Order> p : res){
+            orders.addAll(p.items());
         }
-        return items;
+        return orders;
     }
 
 }
