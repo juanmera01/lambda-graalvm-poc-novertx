@@ -6,37 +6,22 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbPartitionKey;
 
-
 @DynamoDbBean
-public class Customer {
+public class Item {
 
     private Long id;
+
     private String name;
-    private String firstname;
-    private String email;
-    private String street;
 
-    private String city;
+    private double price;
 
-    public Customer() {
+    public Item() {
     }
 
-    public Customer(Long id, String name, String firstname, String email, String street,
-                    String city) {
+    public Item(Long id, String name, double price) {
         this.id = id;
         this.name = name;
-        this.firstname = firstname;
-        this.email = email;
-        this.street = street;
-        this.city = city;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
+        this.price = price;
     }
 
     public String getName() {
@@ -47,12 +32,12 @@ public class Customer {
         this.name = name;
     }
 
-    public String getFirstname() {
-        return firstname;
+    public double getPrice() {
+        return price;
     }
 
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
+    public void setPrice(double price) {
+        this.price = price;
     }
 
     @DynamoDbPartitionKey
@@ -62,22 +47,6 @@ public class Customer {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getStreet() {
-        return street;
-    }
-
-    public void setStreet(String street) {
-        this.street = street;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
     }
 
     @Override
@@ -95,5 +64,4 @@ public class Customer {
     public boolean equals(Object obj) {
         return EqualsBuilder.reflectionEquals(this, obj);
     }
-
 }

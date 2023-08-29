@@ -6,7 +6,6 @@ import software.amazon.awssdk.enhanced.dynamodb.DynamoDbEnhancedClient;
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbTable;
 import software.amazon.awssdk.enhanced.dynamodb.TableSchema;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.StaticAttributeTags;
-import software.amazon.awssdk.enhanced.dynamodb.mapper.StaticTableSchema;
 import software.amazon.awssdk.enhanced.dynamodb.model.Page;
 import software.amazon.awssdk.enhanced.dynamodb.model.PageIterable;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
@@ -16,29 +15,19 @@ import java.util.List;
 
 public class ProductRequestHandler implements RequestHandler<Request, Object> {
 
-    static final TableSchema<Customer> customerTableSchema =
-            TableSchema.builder(Customer.class)
-                    .newItemSupplier(Customer::new)
+    static final TableSchema<Item> itemTableSchema =
+            TableSchema.builder(Item.class)
+                    .newItemSupplier(Item::new)
                     .addAttribute(Long.class, a -> a.name("id")
-                            .getter(Customer::getId)
-                            .setter(Customer::setId)
+                            .getter(Item::getId)
+                            .setter(Item::setId)
                             .tags(StaticAttributeTags.primaryPartitionKey()))
-                    .addAttribute(String.class, a -> a.name("email")
-                            .getter(Customer::getEmail)
-                            .setter(Customer::setEmail)
-                            .tags(StaticAttributeTags.primarySortKey()))
                     .addAttribute(String.class, a -> a.name("name")
-                            .getter(Customer::getName)
-                            .setter(Customer::setName))
-                    .addAttribute(String.class, a -> a.name("firstname")
-                            .getter(Customer::getFirstname)
-                            .setter(Customer::setFirstname))
-                    .addAttribute(String.class, a -> a.name("city")
-                            .getter(Customer::getCity)
-                            .setter(Customer::setCity))
-                    .addAttribute(String.class, a -> a.name("street")
-                            .getter(Customer::getStreet)
-                            .setter(Customer::setStreet))
+                            .getter(Item::getName)
+                            .setter(Item::setName))
+                    .addAttribute(Double.class, a -> a.name("price")
+                            .getter(Item::getPrice)
+                            .setter(Item::setPrice))
                     .build();
 
     @Override
@@ -47,17 +36,17 @@ public class ProductRequestHandler implements RequestHandler<Request, Object> {
         DynamoDbClient dynamodbClient = DynamoDbClient.create();
         final DynamoDbEnhancedClient enhancedClient = DynamoDbEnhancedClient.builder()
                 .dynamoDbClient(dynamodbClient).build();
-        DynamoDbTable<Customer> customerTable = enhancedClient.table(
-                "dxcassure-feature-127-java-lambda-research-service-customer_table",
-                customerTableSchema
+        DynamoDbTable<Item> itemTable = enhancedClient.table(
+                "dxcassure-feature-127-java-lambda-research-service-item_table",
+                itemTableSchema
         );
 
-        List<Customer> customers = new ArrayList<>();
-        PageIterable<Customer> res = customerTable.scan();
-        for(Page<Customer> p : res){
-            customers.addAll(p.items());
+        List<Item> items = new ArrayList<>();
+        PageIterable<Item> res = itemTable.scan();
+        for(Page<Item> p : res){
+            items.addAll(p.items());
         }
-        return customers;
+        return items;
     }
 
 }
