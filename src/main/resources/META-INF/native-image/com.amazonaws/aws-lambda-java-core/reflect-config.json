@@ -58,5 +58,18 @@
         "parameterTypes": []
       }
     ]
+  },
+  {
+    "name": "com.graalvmonlambda.product.Request",
+    "allDeclaredFields": true,
+    "allDeclaredMethods": true,
+    "allPublicMethods": true,
+    "allDeclaredConstructors": true,
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      }
+    ]
   }
 ]
