@@ -4,16 +4,32 @@ import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayV2HTTPEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayV2HTTPResponse;
+import software.amazon.awssdk.enhanced.dynamodb.DynamoDbEnhancedClient;
+import software.amazon.awssdk.enhanced.dynamodb.DynamoDbTable;
+import software.amazon.awssdk.enhanced.dynamodb.TableSchema;
+import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 
-public class ProductRequestHandler implements RequestHandler<APIGatewayV2HTTPEvent, APIGatewayV2HTTPResponse> {
+import java.util.ArrayList;
+import java.util.List;
+
+public class ProductRequestHandler implements RequestHandler<Request, Object> {
 
 
     @Override
-    public APIGatewayV2HTTPResponse handleRequest(APIGatewayV2HTTPEvent event, Context context) {
+    public Object handleRequest(Request request, Context context) {
 
-        return APIGatewayV2HTTPResponse.builder()
-                .withBody("Hello from lambda with graalvm")
-                .withStatusCode(200)
-                .build();
+        DynamoDbClient dynamodbClient = DynamoDbClient.create();
+        TableSchema<Customer> customerSchema = TableSchema.fromBean(Customer.class);
+        final DynamoDbEnhancedClient enhancedClient = DynamoDbEnhancedClient.builder()
+                .dynamoDbClient(dynamodbClient).build();
+        DynamoDbTable<Customer> customerTable = enhancedClient.table(
+                "dxcassure-feature-127-java-lambda-research-service-customer_table",
+                customerSchema
+        );
+
+        List<Customer> customers = new ArrayList<>();
+        //
+        return customers;
     }
+
 }
