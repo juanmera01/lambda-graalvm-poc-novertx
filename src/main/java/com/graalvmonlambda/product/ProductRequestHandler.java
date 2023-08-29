@@ -7,6 +7,8 @@ import software.amazon.awssdk.enhanced.dynamodb.DynamoDbTable;
 import software.amazon.awssdk.enhanced.dynamodb.TableSchema;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.StaticAttributeTags;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.StaticTableSchema;
+import software.amazon.awssdk.enhanced.dynamodb.model.Page;
+import software.amazon.awssdk.enhanced.dynamodb.model.PageIterable;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 
 import java.util.ArrayList;
@@ -51,7 +53,10 @@ public class ProductRequestHandler implements RequestHandler<Request, Object> {
         );
 
         List<Customer> customers = new ArrayList<>();
-        //
+        PageIterable<Customer> res = customerTable.scan();
+        for(Page<Customer> p : res){
+            customers.addAll(p.items());
+        }
         return customers;
     }
 
